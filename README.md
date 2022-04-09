@@ -1,6 +1,6 @@
 # LOGISTICS: PREDICTING VESSEL DISCHARGE
 ## INTRODUCTION
-This repo shows the data processing and the development of a machine learning model to predict vessel discharge value from a limited dataset ($n\approx1000$) using **XGBoost** regression trees.
+This repo shows the data processing and the development of a machine learning model to predict vessel discharge value from a limited dataset (n = 1000) using **XGBoost** regression trees.
 
 ## DATASET
 The data is a vessel transshipment record from a global port which logs the a set features of each vessel along with some of the vessels' load and discharge values. Every vessel is characterized by a set of ``21`` features that includes: **{arrival eta, arrival type, leave eta, ship weight, vessel type, stevedores' names, HaMIS,...}**. The task is to predict vessel ``discharge`` based on the provided feature set.
@@ -54,7 +54,7 @@ After applying SMOGN on the training split. An new ***effective labels distribut
 </p>
 
 #### <b>INVERSE FREQUENCY WEIGHTS</b>
-From the resulting effective distribution, individual instance weights were calculated, such that:<br> $weight_i = 1/freq_i$, where $freq$ is the instance $i$ frequency from the new ***LDS distribution***. Below is the computed sample inverse weights data frame.
+From the resulting effective distribution, individual instance weights were calculated, such that:<br> *weight_i = 1/freq_i*, where *freq* is the instance *i* frequency from the new ***LDS distribution***. Below is the computed sample inverse weights data frame.
 <p align="center">
     <img src= './media/weight_table.png' width= 200></br>
     <i>Inverse frequency weights per discharge value in y_train </i> </br>
@@ -63,8 +63,8 @@ From the resulting effective distribution, individual instance weights were calc
 #### <b>XGBOOST: WEIGHTED SQUARED LOSS </b>
 Using the obtained weights we can weight the ``squared loss`` function to make  the model training adjust to data imbalance. In ``XGboost`` the gradient and hessians of the new weighted loss will be: <br>
 
-$Gradient_i = (ytrue_i - ypred_i) \times weight_i$ <br>
-$Hessian_i = 1 \times weight_i$ <br>
+*Gradient_i = (ytrue_i - ypred_i) x weight_i* <br>
+*Hessian_i = 1 x weight_i* <br>
 
 ## INTEGRATED MODEL DEVELOPMENT & DATA BALANCING PIPELINE
 Due to the small size of of the dataset, a nested cross validation (CV)procedure was implemented to perform model selection (i.e., parameter tuning) while estimating the test error. This process is necessary to reduce the uncertainty (i.e, variance) of the test error.
@@ -73,7 +73,7 @@ Due to the small size of of the dataset, a nested cross validation (CV)procedure
 The balancing procedure (i.e., SMOGN + LDS) was integrated within the nested cross validation process such that for each CV iteration, the balancing pipeline was called only on the training fold, while sparing validation and test folds intact. This is maintained through both the inner model selection loop and the outer error estimation loop. Following this procedure prevents the over-optimistic evaluation of the true test error. Below is an illustration of the integrated pipeline for 3 iterations folds.
 
 <p align="center">
-    <img src= './media/pipeline.png' width= 400></br>
+    <img src= './media/pipeline.png' width= 600></br>
     <i><b>Integrated pipeline</b></br>
     SMOGN + LDS process within the inner fold of a nested cross-validation </i> </br>
 </p>
