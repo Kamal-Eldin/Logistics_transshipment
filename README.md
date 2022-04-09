@@ -75,7 +75,7 @@ The balancing procedure (i.e., SMOGN + LDS) was integrated within the nested cro
 <p align="center">
     <img src= './media/pipeline.png' width= 800></br>
     <i><b>Integrated pipeline</b></br>
-    SMOGN + LDS process within the inner fold of a nested cross-validation </i> </br>
+    SMOGN + LDS process within the nested cross-validation </i> </br>
 </p>
 
 <br>
