@@ -115,3 +115,33 @@ class loss (LDS):
         grad *= self.weights
         hess *= self.weights
         return grad, hess
+
+    def updateloss (self, splt_ytrn):
+        binned = self.bin_dataframe(splt_ytrn)
+        x_wts = self.weight_df(binned).inverse * self.amp
+        wtd_loss = weightloss(weights= x_wts)
+        loss_func = wtd_loss.weighted_mse
+        return loss_func
+
+
+
+def apply_smogn (xsplit, ysplit, target_col = 'discharge'):
+
+    train_df= pd.concat([xsplit, ysplit],axis= 1).reset_index(drop= True)
+    df_smg = smogn.smoter(data= train_df, y= target_col,
+                                    k = 8,
+                                    pert = 0.05,
+                                    samp_method = 'balance',
+                                    drop_na_col = True,
+                                    drop_na_row = True,
+                                    replace = True,
+                                    rel_thres = .8,
+                                    rel_method = 'auto',
+                                    rel_xtrm_type = 'both',
+                                    rel_coef = 1.6
+                                    )
+        
+    x_smg = df_smg.iloc[:,:-1]
+    y_smg = df_smg[[target_col]]
+
+    return x_smg, y_smg
