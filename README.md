@@ -1,6 +1,14 @@
 # LOGISTICS: PREDICTING VESSEL DISCHARGE
 ## INTRODUCTION
-This repo shows the data processing and the development of a machine learning model to predict vessel discharge value from a limited dataset ($n\approx1000$) using **XGBoost** regression trees.
+This repo shows the data processing and the development of a machine learning model to predict vessel discharge value from a limited dataset ($n\approx1000$) using **XGBoost** regression trees. Please click the open in colab button below: <br>
+
+<a href="https://drive.google.com/file/d/1jrnRENPoS4zdHjJ-f_X3CUW8TMKGok7d/view?usp=sharing" target="_blank">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+or download the notebook in this repo at </br>
+ <a href="./Walkthrough_Model_Dev.ipynb" target="_blank">Walkthrough_Model_Dev.ipynb</a> 
+</br>
 
 ## DATASET
 The data is a vessel transshipment record from a global port which logs the a set features of each vessel along with some of the vessels' load and discharge values. Every vessel is characterized by a set of ``21`` features that includes: **{arrival eta, arrival type, leave eta, ship weight, vessel type, stevedores' names, HaMIS,...}**. The task is to predict vessel ``discharge`` based on the provided feature set.
@@ -69,11 +77,13 @@ $Hessian_i = 1 \times weight_i$ <br>
 ## INTEGRATED MODEL DEVELOPMENT & DATA BALANCING PIPELINE
 Due to the small size of of the dataset, a nested cross validation (CV)procedure was implemented to perform model selection (i.e., parameter tuning) while estimating the test error. This process is necessary to reduce the uncertainty (i.e, variance) of the test error.
 
+The pipeline was composed of an inner CV random search loop of ```k = 4``` folds, inside an outer error estimation loop of ``k = 4`` folds. The parameter search was done over ``30`` random configurations of the booster parameters.
+
 ### METHODOLOGICAL REQUIREMENT
 The balancing procedure (i.e., SMOGN + LDS) was integrated within the nested cross validation process such that for each CV iteration, the balancing pipeline was called only on the training fold, while sparing validation and test folds intact. This is maintained through both the inner model selection loop and the outer error estimation loop. Following this procedure prevents the over-optimistic evaluation of the true test error. Below is an illustration of the integrated pipeline for 3 iterations folds.
 
 <p align="center">
-    <img src= './media/pipeline.png' width= 400></br>
+    <img src= './media/pipeline.png' width= 600></br>
     <i><b>Integrated pipeline</b></br>
     SMOGN + LDS process within the inner fold of a nested cross-validation </i> </br>
 </p>
@@ -81,4 +91,46 @@ The balancing procedure (i.e., SMOGN + LDS) was integrated within the nested cro
 <br>
 
 ## RESULTS
-Final results will be posted soon...stay tuned :).
+Below are the test error estimation of the best models selected from the pipelines:
+
+<p align="center">
+    <img src= './media/errors.png' width= 400></br>
+    <i>
+    The final estimates of the test error</i> </br>
+</p>
+
+### The best model was found to have the following parameters:
+``` 
+{'base_score': 0.5,
+ 'booster': 'gbtree',
+ 'colsample_bylevel': 1,
+ 'colsample_bynode': 1,
+ 'colsample_bytree': 0.8801672539105327,
+ 'eval_metric': ['mae', 'rmse'],
+ 'gamma': 10.182123584678035,
+ 'gpu_id': -1,
+ 'interaction_constraints': '',
+ 'learning_rate': 0.019437673150966728,
+ 'max_delta_step': 0,
+ 'max_depth': 16,
+ 'min_child_weight': 4,
+ 'monotone_constraints': '()',
+ 'n_jobs': 2,
+ 'num_parallel_tree': 1,
+ 'predictor': 'auto',
+ 'random_state': 32,
+ 'reg_alpha': 0,
+ 'reg_lambda': 6.261495311486096,
+ 'scale_pos_weight': 1,
+ 'seed': 32,
+ 'subsample': 0.7212236249826819,
+ 'tree_method': 'exact',
+ 'validate_parameters': True,
+ 'verbosity': 1}
+ ```
+### The features had the following weights:
+<p align="center">
+    <img src= './media/features.png' width= 600></br>
+    <i>Feature importance plot</br>
+</p>
+
