@@ -2,7 +2,7 @@
 ## INTRODUCTION
 This repo shows the data processing and the development of a machine learning model to predict vessel discharge value from a limited dataset ($n\approx1000$) using **XGBoost** regression trees. Please click the open in colab button below: <br>
 
-<a href="https://drive.google.com/file/d/1jrnRENPoS4zdHjJ-f_X3CUW8TMKGok7d/view?usp=sharing" target="_blank">
+<a href="https://colab.research.google.com/drive/1jrnRENPoS4zdHjJ-f_X3CUW8TMKGok7d?authuser=0" target="_blank">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
@@ -130,7 +130,7 @@ Below are the test error estimation of the best models selected from the pipelin
  ```
 ### The features had the following weights:
 <p align="center">
-    <img src= './media/features.png' width= 600></br>
+    <img src= './media/features.png' width= 800></br>
     <i>Feature importance plot</br>
 </p>
 
