@@ -130,7 +130,7 @@ Below are the test error estimation of the best models selected from the pipelin
  ```
 ### The features had the following weights:
 <p align="center">
-    <img src= './media/features.png' width= 800></br>
+    <img src= './media/features.png' width= 1000></br>
     <i>Feature importance plot</br>
 </p>
 
