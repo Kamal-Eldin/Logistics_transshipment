@@ -83,7 +83,7 @@ The pipeline was composed of an inner CV random search loop of ```k = 4``` folds
 The balancing procedure (i.e., SMOGN + LDS) was integrated within the nested cross validation process such that for each CV iteration, the balancing pipeline was called only on the training fold, while sparing validation and test folds intact. This is maintained through both the inner model selection loop and the outer error estimation loop. Following this procedure prevents the over-optimistic evaluation of the true test error. Below is an illustration of the integrated pipeline for 3 iterations folds.
 
 <p align="center">
-    <img src= './media/pipeline.png' width= 600></br>
+    <img src= './media/pipeline.png' width= 800></br>
     <i><b>Integrated pipeline</b></br>
     SMOGN + LDS process within the nested cross-validation </i> </br>
 </p>
