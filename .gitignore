@@ -130,3 +130,6 @@ dmypy.json
 
 # ignore data file
 *.xlsx
+
+# ignore dev notebook
+Dev*.*
