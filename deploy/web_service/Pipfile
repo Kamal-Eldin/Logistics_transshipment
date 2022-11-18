@@ -1,16 +1,18 @@
 [[source]]
-url = "https://pypi.python.org/simple"
+url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
 [packages]
-scikit-learn = "==1.0.2"
-xgboost = "==1.5.1"
-numpy = "==1.21.5"
-pandas = "==1.3.4"
+numpy = "*"
+pandas = "*"
+gunicorn = "*"
+scikit-learn = "*"
+xgboost = "*"
 flask = "*"
 
 [dev-packages]
+awsebcli = "*"
 
 [requires]
 python_version = "3.8"
